@@ -9,6 +9,7 @@ class Login extends CI_Controller {
 
     public function index()
     {
+        $data = array('title' =>"1" , );
         $this->load->view('hw');
 
     }
