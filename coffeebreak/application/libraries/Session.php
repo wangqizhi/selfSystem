@@ -15,6 +15,7 @@ class CI_Session {
 	{
 		log_message('debug', "My Session Class Initialized");
 		$this->CI =& get_instance();
+		session_start();
 	}
 
 	

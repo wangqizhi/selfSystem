@@ -9,6 +9,14 @@
             echo "CoffeeBreak";
     }
     ?></title>
-    <link href="/static/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/dist/css/flat-ui.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/static/dist/css/sweet-alert.css">
+    <link href="/static/dist/css/vendor/bootstrap.min.css" rel="stylesheet" type="text/css" >
+    <link href="/static/dist/css/flat-ui.min.css" rel="stylesheet" type="text/css" >
+    <link href="/static/dist/css/sweet-alert.css" rel="stylesheet" type="text/css" >
+<?php
+if (isset($cssArray)) {
+    foreach ($cssArray as $key => $value) {
+        echo '<link href="'.$value.'"" rel="stylesheet" type="text/css" >'; 
+    }
+}
+?></head>
+<body>
