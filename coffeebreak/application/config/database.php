@@ -65,5 +65,21 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 
+$db['ad_passport']['hostname'] = '10.21.5.31';
+$db['ad_passport']['username'] = 'php_app';
+$db['ad_passport']['password'] = 'ybiniuser688';
+$db['ad_passport']['database'] = 'yb_passport';
+$db['ad_passport']['dbdriver'] = 'mysql';
+$db['ad_passport']['dbprefix'] = '';
+$db['ad_passport']['pconnect'] = TRUE;
+$db['ad_passport']['db_debug'] = FALSE;
+$db['ad_passport']['cache_on'] = FALSE;
+$db['ad_passport']['cachedir'] = '';
+$db['ad_passport']['char_set'] = 'utf8';
+$db['ad_passport']['dbcollat'] = 'utf8_general_ci';
+$db['ad_passport']['swap_pre'] = '';
+$db['ad_passport']['autoinit'] = TRUE;
+$db['ad_passport']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */
