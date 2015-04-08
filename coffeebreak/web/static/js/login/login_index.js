@@ -20,7 +20,8 @@ login_btn.click(function(){
         },function(data,status){
             //返回值是1的时候跳转
             if (data.status == "1") {
-                location.href="show"
+                // location.href="show"
+                console.log(data);
             }
             else {
                 sweetAlert("认证失败，失败代码:"+data.detail);

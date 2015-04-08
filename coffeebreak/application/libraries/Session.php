@@ -22,12 +22,12 @@ class CI_Session {
 	
 	function sess_read()
 	{
-		
+		return $_SESSION;
 	}
 
-	function sess_write()
+	function sess_write($key,$value)
 	{
-	
+		$_SESSION[$key] = $value;
 	}
 
 	function sess_create()
@@ -44,7 +44,7 @@ class CI_Session {
 
 	function sess_destroy()
 	{
-		
+		session_destroy();
 	}
 
 	
