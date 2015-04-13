@@ -13,15 +13,15 @@ $("body").keydown(function() {
 
 //登陆事件
 login_btn.click(function(){
-    $.post("login/loginapi",
+    $.post("/login/loginapi",
         {
             usr : login_usr.val(),
             pwd : login_pwd.val(),
         },function(data,status){
             //返回值是1的时候跳转
             if (data.status == "1") {
-                // location.href="show"
-                console.log(data);
+                location.href="station/playstation"
+                // console.log(data);
             }
             else {
                 sweetAlert("认证失败，失败代码:"+data.detail);

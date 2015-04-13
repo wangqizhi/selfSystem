@@ -19,10 +19,32 @@ class CI_Session {
 		session_start();
 	}
 
+	function sess_key()
+	{
+		return "821e851055d590709ef3753ce4bfc4aa";
+	}
+
 	
 	function sess_read()
 	{
 		return $_SESSION;
+	}
+
+	function sess_get($item)
+	{
+		// return $_SESSION[$item];
+		if(!$out = $_SESSION[$item])
+		{
+			return false;
+		}else
+		{
+			return $out;
+		}
+	}
+
+	function sess_getid()
+	{
+		return session_id();
 	}
 
 	function sess_write($key,$value)
@@ -44,6 +66,12 @@ class CI_Session {
 
 	function sess_destroy()
 	{
+		session_destroy();
+	}
+
+	function sess_destroyid($sessid)
+	{
+		session_id($sessid);
 		session_destroy();
 	}
 

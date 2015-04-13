@@ -11,6 +11,13 @@ class Login extends CI_Controller {
 // 登陆页面
     public function index()
     {
+        //判断登陆跳转
+        if ($this->userdefault->checkLogin() ){
+            header("Location:/station/playstation");
+            return;
+        }
+
+        //加载静态资源
         $cssArray = array(
             '/static/css/login/login_index.css',
             );
@@ -22,6 +29,8 @@ class Login extends CI_Controller {
             'cssArray' =>$cssArray,
             'jsArray' =>$jsArray,
          );
+
+        // 加载页面
         $this->load->view('updown/default_head',$data);
         $this->load->view('login/view_login_index');
         $this->load->view('updown/default_foot',$data);
@@ -32,12 +41,12 @@ class Login extends CI_Controller {
     {
         $this->load->model('user/userinfo_model');
         // $uInfo = $this->userinfo_model->get_user_name($usr)[0];
-        if($uInfo =$this->userinfo_model->get_user_name($usr)[0]){
-            return $uInfo;
+        if($uInfo = $this->userinfo_model->get_user_name($usr)){
+            return $uInfo[0];
 
         }else{
-            $uInfo = new uInfo();
-            return $uInfo;
+            return $this->userdefault->defaultUserinfo($usr);
+            // return $uInfo;
         }
 
     }
@@ -46,6 +55,7 @@ class Login extends CI_Controller {
     public function loginApi()
     {
         // $this->output->enable_profiler(TRUE);
+        $this->load->model('user/userinfo_model');
         $this->load->model('cbconfig_model');
         $usr = $this->input->post('usr', TRUE);
         $pwd = $this->input->post('pwd', TRUE);
@@ -58,69 +68,73 @@ class Login extends CI_Controller {
             $this->load->helper($this->cbconfig_model->get_authmeth()[0]->authMeth);
             //可替换认证方法
             $loginResult = auth_byrsa($usr,$pwd);
+
             // 测试用
             $loginResult = 1;
-            // 等于1的时候通过，否则输出问题.
-            if( $loginResult == 1 ){
+            
+            // 登陆权限检查
+            $loginpower = $this->userinfo_model->get_user_loginpower($usr);
+
+            // 更新登陆时间
+            $this->userinfo_model->update_user_lastLoginTime($usr);
+
+            // 报错对应中文提示
+            $loginResultArray = array('1'=>'被锁定','-2'=>'认证失败');
+            
+            if( $loginResult == 1 and $loginpower ){
                 $usrInfo = $this->_get_userInfo($usr);
                 $this->_loginIn($usrInfo);
+                // 登陆成功后跳转至主页
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(array('status' => '1','detail' => array('displayName' => $usrInfo->displayName,))));
             }else{
                 $this->output
                     ->set_content_type('application/json')
-                    ->set_output(json_encode(array('status' => '0','detail' => $loginResult)));
+                    ->set_output(json_encode(array('status' => '0','detail' => $loginResultArray[$loginResult])));
             }
         }else{
             show_error('Not set authMeth');
         }
     }
 
-// 登陆key
-    private function _getKey()
-    {
-        //登陆验证的key
-        return "821e851055d590709ef3753ce4bfc4aa";
-    }
 
 // 登陆方法
     public function _loginIn($usrInfo)
     {   
-        $key = $this->_getKey();
+        $key = $this->session->sess_key();
         $rmIP = $_SERVER["REMOTE_ADDR"];
         $usrID = $usrInfo->id;
         $usrDisplayName = $usrInfo->displayName;
         $this->session->sess_write('cb_secret',md5($key.$usrID."@".$rmIP));
-        $this->session->sess_write('cb_id_'.$usrID,$usrID);
-        $this->session->sess_write('cb_displayName_'.$usrID,$usrDisplayName);
+        $this->session->sess_write('cb_id',$usrID);
+        $this->session->sess_write('cb_displayName',$usrDisplayName);
+        log_message('debug', "****CB: User:".$usrID." login");
+
         // var_dump($this->session->sess_read());
         // $this->session->sess_destroy();
     }
 
-// 检查登陆状态
-    public function _checkLogin($usrID)
-    {
-        $rmIP = $_SERVER["REMOTE_ADDR"];
-        if (isset($this->session->sess_read()['cb_secret']) and md5($this->_getKey().$usrID."@".$rmIP) == $this->session->sess_read()['cb_secret']) {
-            return true;
-        }else{
-            return false;
-        }
-        // var_dump($this->session->sess_read()['cb_secret']);
-        // $this->session->sess_destroy();
-    }
 
 // 登出
     public function loginOut()
     {
+        log_message('debug', "****CB: sess_destroy");
         $this->session->sess_destroy();
+        var_dump(header("Referer"));
+        // header("Location:/station/playstation");
+
+
     }
 
 // 测试
     public function test()
     {
-        var_dump($this->_checkLogin("10000179"));
+        // var_dump($this->userdefault->checkLogin("10000179"));
+        echo "t";
+        $test =$this->userdefault->checkPower();
+        var_dump($test);
+
     }
 
 

@@ -1,0 +1,36 @@
+.leftbar {
+    position:fixed;
+    top:10px;
+    left:0;
+    width: 150px;
+    height: 100%;
+    z-index: 9999;
+}
+
+.test {
+    height: 1000px;
+    margin-left: 180px;
+}
+
+.navfix {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10000;
+    height: 50px;
+    background-color: rgb(24, 143, 225);
+}
+
+
+.myleftnav p{
+    color: white;
+    margin-top:10px;
+}
+
+.myrightnav p{
+    color: white;
+    margin-top:10px;
+    font-size: 15px;
+    text-align: right;
+}

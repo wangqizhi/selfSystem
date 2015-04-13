@@ -9,15 +9,13 @@ class ListTask extends CI_Controller {
 
     public function index()
     {
-        echo "Helloworld!-ls";
-        $test  = $this->load->view('hw',"",true);
+  
 
     }
 
     public function show()
     {
-        echo "in-show-";
-        $this->load->view('hw');
+
 
     }
 

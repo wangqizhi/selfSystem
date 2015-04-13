@@ -86,7 +86,6 @@ class CI_Log {
 
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
 		$message  = '';
-
 		if ( ! file_exists($filepath))
 		{
 			$message .= "<"."?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
