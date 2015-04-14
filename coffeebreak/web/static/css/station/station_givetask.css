@@ -1,0 +1,15 @@
+.taskInput{
+    padding-top: 5px;
+}
+
+.taskBtn{
+    /*padding-top: 5px;
+    padding-left: 10px;
+    text-align: right;*/
+    padding-left:12px; 
+    width: 80px;
+}
+
+/*.show_disable{
+    display: none;
+}*/
