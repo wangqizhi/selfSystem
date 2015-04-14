@@ -22,6 +22,8 @@
 .myleftnav p{
     color: white;
     margin-top:10px;
+    cursor: pointer;
+    width: 105px;
 }
 
 .myrightnav p{

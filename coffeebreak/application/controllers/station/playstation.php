@@ -6,20 +6,19 @@ class Playstation extends CI_Controller {
     {
         parent::__construct();
 
-        //加载静态资源
+        
+        //加载默认静态资源
         $this->cssArray = array(
             '/static/css/station/station_index.css',
             );
         $this->jsArray = array(
             '/static/js/station/station_index.js',
             );
-        $this->data = array(
-            'title' =>"CB-station" ,
-            'cssArray' =>$this->cssArray,
-            'jsArray' =>$this->jsArray,
-            'cb_displayName' => $this->session->sess_get('cb_displayName'),
-            // 'substation' => false,
-         );
+
+        //初始化部分view中变量 
+        $this->data['cb_displayName'] = $this->session->sess_get('cb_displayName');
+        $this->data['title'] = "CB-station";
+        $this->_getjscss();
 
         // 加载模型：用户及station
         $this->load->model('station/station_model');
@@ -28,6 +27,14 @@ class Playstation extends CI_Controller {
         // 通过session获取用户id
         $this->usr = $this->session->sess_get('cb_id');
     }
+
+    // 加载静态资源
+    function _getjscss()
+    {
+        $this->data['cssArray'] =   $this->cssArray;
+        $this->data['jsArray']  =   $this->jsArray;
+    }
+
 
     // 获取主模块权限
     function _getpowerarray()
@@ -53,6 +60,18 @@ class Playstation extends CI_Controller {
         return $subpowerarray;
     }
 
+    // view封装
+    function _defaultview($default=false)
+    {
+        // 加载默认view
+        $this->load->view('updown/default_head',$this->data );
+        $this->load->view('station/view_station_index');
+        if ($default) {
+            $this->load->view('station/view_station_'.$default,$this->data);
+        }
+        $this->load->view('station/view_station_foot');
+        $this->load->view('updown/default_foot',$this->data );
+    }
 
     //url: /station/playstation
     function index()
@@ -73,14 +92,30 @@ class Playstation extends CI_Controller {
             $this->data['substation'] = false;
 
             // 加载默认页页面
-            $this->load->view('updown/default_head',$this->data );
-            $this->load->view('station/view_station_index');
-            $this->load->view('updown/default_foot',$this->data );
+            $this->_defaultview();
 
         }else{
             echo 'power wrong';
         }
     }
+
+
+
+    //派单部分 
+    function _givetask($task)
+    {
+        if ($task == "stask") {
+            array_push($this->jsArray,'/static/js/station/station_givetask.js');
+            array_push($this->cssArray,'/static/css/station/station_givetask.css');
+            $this->_getjscss();
+            $this->_defaultview("givetaskStask");
+        }else{
+            $this->_defaultview();
+
+        }
+
+    }
+
 
     //url: /station/playstation/choose
     function choose($which,$subwhich=false)
@@ -105,7 +140,6 @@ class Playstation extends CI_Controller {
             $this->data['station'] = $which;
             // $this->data['subwhich'] = $this->_getsubpowerarray($which);
             foreach ($mysubpowerarray as $key => $value) {
-                var_dump($key);
                 if (!$subwhich and count($mysubpowerarray)>0 ) {
                     $this->data['subtag'] = $key;
                     break;
@@ -117,18 +151,14 @@ class Playstation extends CI_Controller {
                 $this->data['subtag'] = "none";
             }
 
-            $this->load->view('updown/default_head',$this->data );
-            $this->load->view('station/view_station_index');
-            $this->load->view('updown/default_foot',$this->data );
-            // if (!$subwhich) {
-            //     // 加载默认页页面
-            //     $this->load->view('updown/default_head',$this->data );
-            //     $this->load->view('station/view_station_index');
-            //     $this->load->view('updown/default_foot',$this->data );
-            // }else{
-            //     echo $subwhich;
-            // }
-            
+
+            // 判断模块
+            if ($which=="givetask") {
+                // $this->load->view('station/view_station_givetaskStask',$this->data);
+                $this->_givetask($this->data['subtag']);
+            }else{
+                $this->_defaultview();
+            }
 
 
         }else{
@@ -136,6 +166,8 @@ class Playstation extends CI_Controller {
             return;
         }
     }
+
+
 
     // function test(){
     //     var_dump("1");

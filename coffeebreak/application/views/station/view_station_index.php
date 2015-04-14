@@ -21,18 +21,12 @@
             foreach ($substation as $key => $value) {
               if ($key ==$subtag) {
                 echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.' active"><span class="spanchoose">'.$value.'</span></div>';
-                # code...
               } else {
-                # code...
                 echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.'"><a href="/station/playstation/choose/'.$station.'/'.$key.'" class="suba">'.$value.'</a></div>';
-
               }
-              
-              // echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.'"><a href="/station/playstation/choose/'.$station.'/'.$key.'" class="suba">'.$value.'</a></div>';
             }
-            // echo '<script>var substationClass="'.$subtag.'"</script>';
           }else{
-            echo '<div class="col-sm-2 topnav_btn"><span>Welcome</span></div>';
+            echo '<div class="col-sm-2 topnav_btn"><span class="spanchoose">Welcome</span></div>';
           }
          ?>
       </div>
@@ -52,9 +46,4 @@
     </div>
   </div>
   <div class="col-md-8 mainstage">
-    <div class="">
-     
-    </div>
-  </div>
-  <div class="col-md-2"></div>
-</div>
+    <!-- 以下具体模块 start -->
