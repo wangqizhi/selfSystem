@@ -1,15 +1,11 @@
 .leftbar {
     position:fixed;
-    top:10px;
+    top:25px;
     left:0;
     width: 150px;
     height: 100%;
     z-index: 9999;
-}
-
-.test {
-    height: 1000px;
-    margin-left: 180px;
+    /*text-align: center;*/
 }
 
 .navfix {
@@ -33,4 +29,35 @@
     margin-top:10px;
     font-size: 15px;
     text-align: right;
+}
+
+.mainstage {
+    top: 65px;
+    left: 180px;
+}
+
+.topnav_btn{
+    height: 50px;
+    text-align: center;
+    color: white;
+}
+
+.topnav_btn.active{
+    background-color: white;
+    color: rgb(39, 39, 39);
+}
+
+.suba{
+    /*top: 2px;*/
+    cursor: pointer;
+    color: white;
+    font-size: 30px;
+}
+
+.spanchoose{
+    font-size: 30px;
+}
+
+.adddisable {
+    display: none;
 }

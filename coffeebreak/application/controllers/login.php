@@ -40,13 +40,11 @@ class Login extends CI_Controller {
     public function _get_userInfo($usr)
     {
         $this->load->model('user/userinfo_model');
-        // $uInfo = $this->userinfo_model->get_user_name($usr)[0];
         if($uInfo = $this->userinfo_model->get_user_name($usr)){
             return $uInfo[0];
 
         }else{
             return $this->userdefault->defaultUserinfo($usr);
-            // return $uInfo;
         }
 
     }
@@ -121,21 +119,21 @@ class Login extends CI_Controller {
     {
         log_message('debug', "****CB: sess_destroy");
         $this->session->sess_destroy();
-        var_dump(header("Referer"));
-        // header("Location:/station/playstation");
+        // var_dump(header("Referer"));
+        header("Location:/");
 
 
     }
 
 // 测试
-    public function test()
-    {
-        // var_dump($this->userdefault->checkLogin("10000179"));
-        echo "t";
-        $test =$this->userdefault->checkPower();
-        var_dump($test);
+    // public function test()
+    // {
+    //     // var_dump($this->userdefault->checkLogin("10000179"));
+    //     echo "t";
+    //     $test =$this->userdefault->checkPower();
+    //     var_dump($test);
 
-    }
+    // }
 
 
 }
