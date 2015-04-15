@@ -27,7 +27,7 @@ class Userinfo_model extends CI_Model {
     }
     
     // 获取用户信息
-    function get_user_name($usr)
+    function get_user_info($usr)
     {
         $query = $this->db_passport->where('id',$usr)->get('users');
         // var_dump($query);
@@ -35,6 +35,27 @@ class Userinfo_model extends CI_Model {
             return $query->result();
         }else{
             return false;
+        }
+        
+    }
+
+    // 获取一组用户名信息
+    function get_users_name($usrs)
+    {
+        $usrsnamearray = array();
+        foreach ($usrs as $key => $value) {
+            # code...
+            $query = $this->db_passport->select('displayName')->where('id',$value)->get('users');
+            if ($query) {
+                // array_push($usrsnamearray,$query->result()[0]->displayName);
+                $usrsnamearray[$value] = $query->result()[0]->displayName;
+            }
+        }
+        // var_dump($query);
+        if (count($usrsnamearray) == 0) {
+            return false;
+        }else{
+            return $usrsnamearray;
         }
         
     }

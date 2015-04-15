@@ -40,7 +40,7 @@ class Login extends CI_Controller {
     public function _get_userInfo($usr)
     {
         $this->load->model('user/userinfo_model');
-        if($uInfo = $this->userinfo_model->get_user_name($usr)){
+        if($uInfo = $this->userinfo_model->get_user_info($usr)){
             return $uInfo[0];
 
         }else{

@@ -22,6 +22,7 @@ class Playstation extends CI_Controller {
 
         // 加载模型：用户及station
         $this->load->model('station/station_model');
+        $this->load->model('station/givetask_model');
         $this->load->model('user/userinfo_model');
 
         // 通过session获取用户id
@@ -105,10 +106,20 @@ class Playstation extends CI_Controller {
     function _givetask($task)
     {
         if ($task == "stask") {
+            
+            $whos =  $this->userinfo_model->get_users_name(array("10000179","10000266"));
+
+            $default_users = $this->givetask_model->get_default_users();
+            $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
+            $tasktypes = $this->givetask_model->get_task_type();
+
+            $this->data['defaultusers'] = $default_users_withname;
+            $this->data['tasktypes'] = $tasktypes;
             array_push($this->jsArray,'/static/js/station/station_givetask.js');
             array_push($this->cssArray,'/static/css/station/station_givetask.css');
             $this->_getjscss();
             $this->_defaultview("givetaskStask");
+
         }else{
             $this->_defaultview();
 
@@ -168,13 +179,15 @@ class Playstation extends CI_Controller {
     }
 
 
+    function gettaskusersApi()
+    {
 
-    // function test(){
-    //     var_dump("1");
-    //     $test = array("1"=>"tes","2"=>"test2");
-    //     $test["123"]="test";
-    //     var_dump($test);
+    }
 
-    // }
+    function test(){
+        $test =  $this->userinfo_model->get_users_name(array("10000179","10000266"));
+        var_dump($test);
+
+    }
 
 }
