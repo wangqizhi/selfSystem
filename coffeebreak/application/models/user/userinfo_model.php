@@ -19,6 +19,7 @@ class Userinfo_model extends CI_Model {
         }
     }
 
+
     // 更新登陆时间
     function update_user_lastLoginTime($usr)
     {
@@ -44,7 +45,6 @@ class Userinfo_model extends CI_Model {
     {
         $usrsnamearray = array();
         foreach ($usrs as $key => $value) {
-            # code...
             $query = $this->db_passport->select('displayName')->where('id',$value)->get('users');
             if ($query) {
                 // array_push($usrsnamearray,$query->result()[0]->displayName);
@@ -63,7 +63,7 @@ class Userinfo_model extends CI_Model {
     // 获取用户gid
     function get_user_gid($usr)
     {
-        $query = $this->db_cb->where('uid',$usr)->get('cb_users');
+        $query = $this->db_cb->select("gid")->where('uid',$usr)->get('cb_users');
         // var_dump($query);
         if ($query) {
             return $query->result();
@@ -72,7 +72,6 @@ class Userinfo_model extends CI_Model {
         }
         
     }
-
-
+    
 
 }

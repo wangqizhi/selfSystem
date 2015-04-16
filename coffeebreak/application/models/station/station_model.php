@@ -28,6 +28,7 @@ class Station_model extends CI_Model {
     {
         $this->db_cb->select('functionName');
         $this->db_cb->select('functionTag');
+        $this->db_cb->select('functionUrl');
         // $this->db_cb->distinct();
         $this->db_cb->where('functionGroup',$functionGroup);
         $this->db_cb->like('functionPower','-'.$powerid.'-');
@@ -38,5 +39,32 @@ class Station_model extends CI_Model {
             return false;
         }
     }
+
+    // 判断是否有模块的权限
+    function verify_playstation_power($powerid,$levelone,$leveltwo)
+    {
+        if ($powerid) {
+            if ($leveltwo == "power_all") {
+                  $query = $this->db_cb->where('functionGroup',$levelone)
+                                    ->like('functionPower','-'.$powerid.'-')->get("cb_function");
+            } else {
+                  $query = $this->db_cb->where('functionGroup',$levelone)
+                                    ->where('functionTag',$leveltwo)
+                                    ->like('functionPower','-'.$powerid.'-')->get("cb_function");
+            }
+            
+            if ($query && count($query->result())!=0) {
+                return true;
+            } else {
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
+
 
 }

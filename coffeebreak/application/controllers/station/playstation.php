@@ -29,6 +29,7 @@ class Playstation extends CI_Controller {
         $this->usr = $this->session->sess_get('cb_id');
     }
 
+
     // 加载静态资源
     function _getjscss()
     {
@@ -49,6 +50,7 @@ class Playstation extends CI_Controller {
         return $powerarray;
     }
 
+
     // 获取子模块权限
     function _getsubpowerarray($which)
     {
@@ -56,10 +58,11 @@ class Playstation extends CI_Controller {
             $gid = $this->userinfo_model->get_user_gid($this->usr)[0]->gid;
             $usrsubfunction = $this->station_model->get_playstation_subgroup($which,$gid);
             foreach ($usrsubfunction as $key => $value) {
-                $subpowerarray[$value->functionTag] = $value->functionName;
+                $subpowerarray[$value->functionTag] = array($value->functionName,$value->functionUrl);
         }
         return $subpowerarray;
     }
+
 
     // view封装
     function _defaultview($default=false)
@@ -73,6 +76,7 @@ class Playstation extends CI_Controller {
         $this->load->view('station/view_station_foot');
         $this->load->view('updown/default_foot',$this->data );
     }
+
 
     //url: /station/playstation
     function index()
@@ -101,24 +105,44 @@ class Playstation extends CI_Controller {
     }
 
 
-
     //派单部分 
     function _givetask($task)
     {
+        // 加载静态资源
+        array_push($this->jsArray,'/static/js/station/station_givetask.js');
+        array_push($this->cssArray,'/static/css/station/station_givetask.css');
+        $this->_getjscss();
+        
         if ($task == "stask") {
             
-            $whos =  $this->userinfo_model->get_users_name(array("10000179","10000266"));
-
+            // 获取用户
             $default_users = $this->givetask_model->get_default_users();
             $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
             $tasktypes = $this->givetask_model->get_task_type();
 
+            // 加载数据
             $this->data['defaultusers'] = $default_users_withname;
             $this->data['tasktypes'] = $tasktypes;
-            array_push($this->jsArray,'/static/js/station/station_givetask.js');
-            array_push($this->cssArray,'/static/css/station/station_givetask.css');
-            $this->_getjscss();
+           
+
+            // 获取view
             $this->_defaultview("givetaskStask");
+
+        }elseif($task == "rtask"){
+
+            // // 获取用户
+            // $default_users = $this->givetask_model->get_default_users();
+            // $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
+            // $tasktypes = $this->givetask_model->get_task_type();
+
+            // // 加载数据
+            // $this->data['defaultusers'] = $default_users_withname;
+            // $this->data['tasktypes'] = $tasktypes;
+          
+
+            // 获取view
+            $this->_defaultview("givetaskRtask");
+
 
         }else{
             $this->_defaultview();
@@ -179,15 +203,103 @@ class Playstation extends CI_Controller {
     }
 
 
-    function gettaskusersApi()
+    function savetaskApi()
     {
+        // 判断是否有调用权限
+        $verity_power = $this->userdefault->checkPower('givetask-stask');
+        if($verity_power){
 
+            // stask页面获取的post
+            $tasktype_post = $this->input->post("tasktype");
+            $defaulttaskuser_post = $this->input->post("defaulttaskuser");
+            $taskcontent_post = $this->input->post("taskcontent");
+
+
+            // 空值处理
+            if ( $tasktype_post== "" || $defaulttaskuser_post== "" || trim($taskcontent_post)== "" ) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '缺少参数')));
+                return;
+            }
+
+            // 异常值处理
+            $tasklevelarray = preg_split('/-/',$tasktype_post);
+            if (count($tasklevelarray)!=2) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '事件类型错误')));
+                return;
+            }
+            
+            // 获取task类型
+            $tasklevelone = $tasklevelarray[0];
+            $taskleveltwo = $tasklevelarray[1];
+
+
+            // 获取默认联系人
+            $defaulttaskuser = $this->givetask_model->get_default_user_bylevel($tasklevelone,$taskleveltwo);
+
+            if ($defaulttaskuser_post == 'default' && !$defaulttaskuser) {
+                // 无默认联系人
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '该事件没有默认联系人，请选择')));
+                return;
+            } else {
+                // 无默认联系人则增加
+                if (!$defaulttaskuser) {
+                    $inserttaskresult = $this->givetask_model->set_task_type($tasklevelone,$taskleveltwo,$defaulttaskuser_post);
+                    if ($inserttaskresult == false ) {
+                        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '提交事件失败')));
+                        return;
+                    }
+                    $defaulttaskuser_real = $defaulttaskuser_post;
+                }else{
+                    $defaulttaskuser_real = $defaulttaskuser[0]->dealDefault;
+
+                }
+                // 插入事件
+                $taskid_query = $this->givetask_model->get_task_id($tasklevelone,$taskleveltwo,$defaulttaskuser_real);
+
+                // 确认有task id
+                if ( $taskid_query && ($taskid = $taskid_query[0]->id) > 0 ) {
+                    // 确认插入用户
+                    if($defaulttaskuser_post =='default'){
+                        $nowman = $defaulttaskuser_real;
+                    }else{
+                        $nowman = $defaulttaskuser_post;
+                    }
+
+                    $task_query = $this->givetask_model->set_task($taskid,trim($taskcontent_post),$nowman);
+                    
+                    // 确认插入成功
+                    if ($task_query) {
+                        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '派单成功')));
+                        return;
+                    } else {
+                        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '派单失败')));
+                        return;
+                    }
+                    
+                } else {
+                    $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '获取事件类型ID失败')));
+                    return;
+                }
+
+            }
+
+            
+            
+
+            $tempshow = $taskid;
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => $tempshow)));
+        }else{
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无权限')));
+            return;
+        }
     }
+
 
     function test(){
         $test =  $this->userinfo_model->get_users_name(array("10000179","10000266"));
         var_dump($test);
 
     }
+
 
 }

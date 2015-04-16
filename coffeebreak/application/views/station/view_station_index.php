@@ -20,9 +20,10 @@
           if($substation){
             foreach ($substation as $key => $value) {
               if ($key ==$subtag) {
-                echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.' active"><span class="spanchoose">'.$value.'</span></div>';
+                echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.' active"><span class="spanchoose">'.$value[0].'</span></div>';
               } else {
-                echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.'"><a href="/station/playstation/choose/'.$station.'/'.$key.'" class="suba">'.$value.'</a></div>';
+                // echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.'"><a href="/station/playstation/choose/'.$station.'/'.$key.'" class="suba">'.$value.'</a></div>';
+                echo '<div class="col-sm-2 topnav_btn mysubC_'.$key.'"><a href="'.$value[1].'" class="suba">'.$value[0].'</a></div>';
               }
             }
           }else{

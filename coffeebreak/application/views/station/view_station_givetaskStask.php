@@ -19,24 +19,8 @@
                     <li ><a class="choose_levelone" href="#">a3</a></li> -->
                 </ul>
             </div>
-            <input id="levelone_input" type="text" placeholder="事件类型" class="form-control" />
+            <input id="levelone_input" type="text" placeholder="事件类型(格式:大类-小类)" class="form-control" />
         </div>
-
-<!-- 
-        <div class="input-group taskInput show_disable">
-            <div class="input-group-btn">
-                <button id="leveltwo_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    输入
-                    <span class="caret"></span>
-                </button>
-                <ul id="leveltwo_dropdown" class="dropdown-menu" role="menu">
-                    <li><a class="choose_leveltwo" href="#">a3</a></li>
-                    <li><a class="choose_leveltwo" href="#">a4</a></li>
-                </ul>
-            </div>
-            <input id="leveltwo_input" type="text" placeholder="事件小类" class="form-control" />
-        </div> -->
-
 
 
         <div class="input-group taskInput">
