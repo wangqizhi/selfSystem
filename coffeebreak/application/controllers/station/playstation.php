@@ -131,14 +131,19 @@ class Playstation extends CI_Controller {
         }elseif($task == "rtask"){
 
             // // 获取用户
-            // $default_users = $this->givetask_model->get_default_users();
-            // $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
+            $default_users = $this->givetask_model->get_default_users();
+            $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
             // $tasktypes = $this->givetask_model->get_task_type();
 
             // // 加载数据
-            // $this->data['defaultusers'] = $default_users_withname;
+            $this->data['defaultusers'] = $default_users_withname;
             // $this->data['tasktypes'] = $tasktypes;
-          
+
+            // 
+            $undealtask = $this->givetask_model->get_task_undeal($this->usr);
+            $tasktypes = $this->givetask_model->get_task_type();
+            $this->data['undealtask'] = $undealtask;
+            $this->data['tasktypes'] = $tasktypes;
 
             // 获取view
             $this->_defaultview("givetaskRtask");
@@ -203,6 +208,7 @@ class Playstation extends CI_Controller {
     }
 
 
+    // 提交任务
     function savetaskApi()
     {
         // 判断是否有调用权限
@@ -265,11 +271,11 @@ class Playstation extends CI_Controller {
                         $nowman = $defaulttaskuser_post;
                     }
 
-                    $task_query = $this->givetask_model->set_task($taskid,trim($taskcontent_post),$nowman);
+                    $task_query = $this->givetask_model->set_task($taskid,trim($taskcontent_post),$nowman,$this->usr);
                     
                     // 确认插入成功
                     if ($task_query) {
-                        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '派单成功')));
+                        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => '派单成功')));
                         return;
                     } else {
                         $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '派单失败')));
@@ -282,16 +288,70 @@ class Playstation extends CI_Controller {
                 }
 
             }
-
-            
-            
-
-            $tempshow = $taskid;
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => $tempshow)));
         }else{
             $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无权限')));
             return;
         }
+    }
+
+    // 获取任务信息
+    function gettaskApi()
+    {
+        // 权限判断
+        $verity_power = $this->userdefault->checkPower('givetask-rtask');
+        if ($verity_power) {
+            $caseid = $this->input->post('caseid');
+            if ($caseid == '') {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '参数错误')));
+                return;
+            } 
+
+            $caseinfo = $this->givetask_model->get_task_info($caseid);
+            if ($caseinfo) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => $caseinfo)));
+                return;
+            } else {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无指定事件')));
+                return;
+            }
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无权限')));
+            return;
+        }
+        
+    }
+
+
+    // 更新任务信息
+    function updatetaskApi()
+    {
+        // 权限判断
+        $verity_power = $this->userdefault->checkPower('givetask-rtask');
+        if ($verity_power) {
+
+            // 获取post 
+            $case_action = $this->input->post('case_action');
+            $case_saywhat = $this->input->post('case_saywhat');
+            if ( $case_action == '' || $case_saywhat == '') {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '参数错误')));
+                return;
+            }
+
+            // 判断转发人是否为空
+            if ( $case_action == "case_forward" &&  $case_forwardman=='') {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '没有转发人')));
+                return;
+            }else{
+                $case_forwardman = $this->input->post('case_forwardman');
+
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => 'hello')));
+            return;
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无权限')));
+            return;
+        }
+        
     }
 
 

@@ -106,13 +106,14 @@ class givetask_model extends CI_Model {
     }
 
     // 插入事件
-    function set_task($typeid,$taskcontent,$nowman)
+    function set_task($typeid,$taskcontent,$nowman,$askman)
     {
         $data = array(
                 'typeID' => $typeid ,
                 'taskContent' => $taskcontent ,
                 'taskPath' =>  $nowman.'@'.time(),
                 'nowMan' => $nowman ,
+                'askMan' => $askman ,
                 'taskStatus' => 1 ,
                 'startTime' => time() ,
                 'finishTime' => 0,
@@ -124,6 +125,45 @@ class givetask_model extends CI_Model {
             return false;
         }
         
+    }
+
+    // 获取用户未处理事件
+    function get_task_undeal($usr)
+    {
+        $query = $this->db_cb->select('id')->select('typeID')->select('startTime')
+                                ->where('nowMan',$usr)
+                                ->where('taskStatus',1)
+                                ->order_by('startTime')
+                                ->get('cb_givetask_task');
+        if ( $query && count($query->result())!=0 ) {
+            return $query->result();
+        } else {
+            return false;
+        }
+        
+    }
+
+    // 获取事件内容
+    function get_task_info($caseid)
+    {
+        $query = $this->db_cb->where('id',$caseid)->get('cb_givetask_task');
+        if ( $query && count($query->result())==1 ) {
+            return $query->result();
+        } else {
+            return false;
+        }
+        
+    }
+
+    // 获取事件类型，根据ID
+    function get_tasktype_byid($typeid)
+    {
+        $query = $this->db_cb->select('taskLevelOne')->select('taskLevelTwo')->where('id',$typeid)->get('cb_givetask_type');
+        if ( $query && count($query->result())==1 ) {
+            return $query->result()[0];
+        } else {
+            return false;
+        }
     }
 
 
