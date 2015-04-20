@@ -1,21 +1,12 @@
 <div class="row">
   <div class="navfix">
-    <!-- <nav class="mynav navbar navbar-inverse navbar-embossed"> -->
-      <!-- <p class="navbar-text navbar-right loginwho">Signed in as <a class="navbar-link" href="#"><?php echo $cb_displayName?></a></p> -->
-    <!-- </nav> -->
+
     <div class="col-md-2 myleftnav">
       <p class="">Coffee Break</p>
     </div>
     <div class="col-md-8">
       <div class="container">
-      <!--   <div class="col-sm-2 topnav_btn active">
-          <span>hello</span>
-        </div>
-        <div class="col-sm-2 topnav_btn topnav_btn ">
-          <span>hello2</span>
-        </div>
-        <div class="col-sm-2">
-        </div> -->
+
         <?php 
           if($substation){
             foreach ($substation as $key => $value) {

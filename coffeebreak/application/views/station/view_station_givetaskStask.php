@@ -61,7 +61,7 @@
                         <?php 
                         if ($commitusr && count($commitusr)!=0 ) {
                             foreach ($commitusr as $key => $value) {
-                                echo '<li><a class="" href="#">'.$defaultusers[$value->nowMan].'正在处理CaseID:'.$value->id.'</a><p>'.$value->taskContent.'</p></li>';
+                                echo '<li><a class="" href="#">'.$defaultusers[$value->nowMan].'正在处理CaseID:'.$value->id.'</a><p><small>'.$value->taskContent.'</small></p></li>';
                             }
                         }
                      ?>

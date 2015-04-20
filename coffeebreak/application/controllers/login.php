@@ -36,6 +36,42 @@ class Login extends CI_Controller {
         $this->load->view('updown/default_foot',$data);
     }
 
+// 邀请页面
+    public function invite()
+    {
+        $cssArray = array(
+            '/static/css/login/login_invite.css',
+            );
+        $jsArray = array(
+            '/static/js/login/login_invite.js',
+            );
+        $data = array(
+            'title' =>"Invitation" ,
+            'cssArray' =>$cssArray,
+            'jsArray' =>$jsArray,
+         );
+        // 加载页面
+        $this->load->view('updown/default_head',$data);
+        $this->load->view('login/view_login_invite');
+        $this->load->view('updown/default_foot',$data);
+    }
+
+    public function inviteapi()
+    {
+        $whoid  = $this->input->post('usrid');
+        if ($whoid != '') {
+            $usrisok = $this->userinfo_model->set_user_login($whoid);
+            if ($usrisok) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => '成功')));
+            } else {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '失败')));
+            }
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '失败')));
+        }
+        
+    }
+
 // 获取用户信息
     public function _get_userInfo($usr)
     {

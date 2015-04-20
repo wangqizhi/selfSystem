@@ -20,6 +20,19 @@ class Userinfo_model extends CI_Model {
     }
 
 
+    // 申请可以登录的用户
+    function set_user_login($usr)
+    {
+        $query = $this->db_cb->select('loginPower')->where('uid',$usr)->where('loginPower','1')->get('cb_users');
+        if ($query and count($query->result())==1 ) {
+            return false;
+        }else{
+            $data = array('uid'=>$usr,'createTime'=>time(),'loginPower'=>0);
+            $this->db_cb->insert('cb_users',$data);
+            return true;
+        }
+    }
+
     // 更新登陆时间
     function update_user_lastLoginTime($usr)
     {

@@ -52,7 +52,12 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('session','userdefault','security');
+$autoload['libraries'] = array(
+                            'session',//自定义-session类
+                            'userdefault',//自定义-用户相关类
+                            'viewdefault',//自定义-通用view类
+                            'security',//CI-安全类
+                            );
 
 
 /*
