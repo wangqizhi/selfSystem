@@ -57,7 +57,19 @@ class Userinfo_model extends CI_Model {
         }else{
             return $usrsnamearray;
         }
-        
+    }
+
+
+    // 获取一个用户名信息
+    function get_user_name($usr)
+    {
+        $query = $this->db_passport->select('displayName')->where('id',$usr)->get('users');
+        if ($query) {
+                // array_push($usrsnamearray,$query->result()[0]->displayName);
+            return $query->result()[0]->displayName;
+        }else{
+            return false;
+        }
     }
 
     // 获取用户gid

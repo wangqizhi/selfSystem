@@ -63,7 +63,7 @@ class Login extends CI_Controller {
                 return;
                 }        
         if($this->cbconfig_model->get_authmeth()[0]){
-            $this->load->helper($this->cbconfig_model->get_authmeth()[0]->authMeth);
+            $this->load->helper($this->cbconfig_model->get_authmeth()[0]->configValue);
             //可替换认证方法
             $loginResult = auth_byrsa($usr,$pwd);
 

@@ -87,25 +87,7 @@ class Userdefault {
             }
         }
 
-        // if($login=="station"){
-        //     $gid = $this->CI->userinfo_model->get_user_gid($this->CI->session->sess_read()['cb_id']);
-        //     // $gid = $this->CI->userinfo_model->get_user_gid("10000179");
-        //     $taskid = $this->CI->input->post("taskid");
-        //     if ($gid && $levelone != '' && $leveltwo != '') {
-        //         $verify = $this->CI->station_model->verify_playstation_power($gid[0]->gid,$levelone,$leveltwo);
-        //         if ($verify) {
-        //             return true;
-        //         } else {
-        //             return false;
-        //         }
-        //     } else {
-        //         return false;
-        //     }
-            
-        // }else{
-        //     log_message('debug', "****CB: checkPower failed");
-        //     return false;
-        // }
+
     }
 
     // 默认用户信息

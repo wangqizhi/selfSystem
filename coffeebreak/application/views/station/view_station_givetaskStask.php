@@ -53,14 +53,33 @@
     
 
     <div class="col-md-6">
-       
+
+        <div class="panel panel-default">
+            <div class="panel-heading">我提交-未完成</div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <?php 
+                        if ($commitusr && count($commitusr)!=0 ) {
+                            foreach ($commitusr as $key => $value) {
+                                echo '<li><a class="" href="#">'.$defaultusers[$value->nowMan].'正在处理CaseID:'.$value->id.'</a><p>'.$value->taskContent.'</p></li>';
+                            }
+                        }
+                     ?>
+                        <!-- <li><a href="">1 - 3- - 4- 5</a><p>helo</p></li>
+                        <li><a href="">1 - 3- - 4- 5</a></li> -->
+                    </ul>
+                </div>
+        </div>    
+
+
     </div>
+
+
 </div>
 <div class="row">
     <div class="col-md-6">
-
-    </div>
+    </div>    
+</div>
     <div class="col-md-6">
-
     </div>
 </div>

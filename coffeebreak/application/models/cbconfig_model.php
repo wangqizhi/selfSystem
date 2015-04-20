@@ -12,7 +12,7 @@ class Cbconfig_model extends CI_Model {
     function get_authmeth()
     {
         $db_cb = $this->load->database("default",TRUE);
-        $query = $db_cb->get('cb_config');
+        $query = $db_cb->where('configMeth','authMeth')->get('cb_config');
         if ($query) {
             return $query->result();
         }else{

@@ -119,11 +119,12 @@ class Playstation extends CI_Controller {
             $default_users = $this->givetask_model->get_default_users();
             $default_users_withname =  $this->userinfo_model->get_users_name($default_users);
             $tasktypes = $this->givetask_model->get_task_type();
+            $commitusr = $this->givetask_model->get_task_commit($this->usr);
 
             // 加载数据
             $this->data['defaultusers'] = $default_users_withname;
             $this->data['tasktypes'] = $tasktypes;
-           
+            $this->data['commitusr'] = $commitusr;
 
             // 获取view
             $this->_defaultview("givetaskStask");
@@ -141,8 +142,10 @@ class Playstation extends CI_Controller {
 
             // 
             $undealtask = $this->givetask_model->get_task_undeal($this->usr);
+            $aboutusr = $this->givetask_model->get_task_aboutusr($this->usr);
             $tasktypes = $this->givetask_model->get_task_type();
             $this->data['undealtask'] = $undealtask;
+            $this->data['aboutusr'] = $aboutusr;
             $this->data['tasktypes'] = $tasktypes;
 
             // 获取view
@@ -190,7 +193,6 @@ class Playstation extends CI_Controller {
                 }
                 $this->data['subtag'] = "none";
             }
-
 
             // 判断模块
             if ($which=="givetask") {
@@ -271,7 +273,13 @@ class Playstation extends CI_Controller {
                         $nowman = $defaulttaskuser_post;
                     }
 
-                    $task_query = $this->givetask_model->set_task($taskid,trim($taskcontent_post),$nowman,$this->usr);
+                    // $taskcontent_post_array = preg_split('//n/',$taskcontent_post);
+                    $taskcontent_post_real = preg_replace('/\n/', '<br>', $taskcontent_post);
+                    // foreach ($taskcontent_post_array as $key => $value) {
+                    //     $taskcontent_post_real = $taskcontent_post_real."<br>".$value;
+                    // }
+
+                    $task_query = $this->givetask_model->set_task($taskid,$this->security->xss_clean($taskcontent_post_real),$nowman,$this->usr);
                     
                     // 确认插入成功
                     if ($task_query) {
@@ -321,6 +329,24 @@ class Playstation extends CI_Controller {
         
     }
 
+    function getusrnameApi()
+    {
+        if (!$this->userdefault->checkLogin()){
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '无权限')));
+            return;
+        }
+        $userid = $this->input->post("usrid");
+        $default_users_withname =  $this->userinfo_model->get_user_name($userid);
+        if ($default_users_withname) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => $default_users_withname)));
+            return;
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '查询失败')));
+            return;
+        }
+        
+    }
+
 
     // 更新任务信息
     function updatetaskApi()
@@ -332,19 +358,28 @@ class Playstation extends CI_Controller {
             // 获取post 
             $case_action = $this->input->post('case_action');
             $case_saywhat = $this->input->post('case_saywhat');
-            if ( $case_action == '' || $case_saywhat == '') {
+            $case_id = $this->input->post('case_id');
+
+            if ( $case_action == '' || $case_saywhat == '' || $case_id == 0) {
                 $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '参数错误')));
                 return;
             }
 
             // 判断转发人是否为空
-            if ( $case_action == "case_forward" &&  $case_forwardman=='') {
+            $case_forwardman = $this->input->post('case_forwardman');
+            if ( $case_action == "case_forward" &&  $case_forwardman == '') {
                 $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => '没有转发人')));
                 return;
             }else{
                 $case_forwardman = $this->input->post('case_forwardman');
 
             }
+
+
+            // case动作数据库操作
+            $case_action_result = $this->givetask_model->update_task($case_action,$case_id,$this->usr,$case_saywhat,$case_forwardman);
+            
+
             $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => 'hello')));
             return;
         } else {
@@ -356,8 +391,7 @@ class Playstation extends CI_Controller {
 
 
     function test(){
-        $test =  $this->userinfo_model->get_users_name(array("10000179","10000266"));
-        var_dump($test);
+        var_dump($_SESSION);
 
     }
 

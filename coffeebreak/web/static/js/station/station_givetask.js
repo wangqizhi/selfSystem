@@ -56,42 +56,98 @@ $('.case_a').click(function(){
                         },function(data){
                             $('.show_case_detail').removeClass('show_case_detail');
                             $('#case_detail_id').html("Case:"+data.detail[0].id+" 详细内容");
+                            $('#case_detail_id').attr("realcaseid",data.detail[0].id);
                             $('#case_detail_content').html(data.detail[0].taskContent);
+                            $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
+                            // $.post('/station/playstation/getusrnameApi',{
+                            //     usrid:data.detail[0].nowMan
+                            // },function(data_in){
+                            //     $('#case_detail_user').html(data_in.detail+'正在处理...');
+                            // });
+                            $('.group_btn_close').addClass('show_btn_close');
+                            $('.group_btn_deal').removeClass('show_btn_deal');
+                        });
+});
+
+
+// 获取需要关闭case内容
+$('.case_c_a').click(function(){
+    $.post('/station/playstation/gettaskApi',
+                        {caseid:this.id
+                        },function(data){
+                            $('.show_case_detail').removeClass('show_case_detail');
+                            $('#case_detail_id').html("Case:"+data.detail[0].id+" 详细内容");
+                            $('#case_detail_id').attr("realcaseid",data.detail[0].id);
+                            $('#case_detail_content').html(data.detail[0].taskContent);
+                            $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
+                            // $.post('/station/playstation/getusrnameApi',{
+                            //     usrid:data.detail[0].nowMan
+                            // },function(data_in){
+                            //     $('#case_detail_user').html(data_in.detail+'正在处理...');
+                            // });
+                            $('.group_btn_deal').addClass('show_btn_deal');
+                            $('.group_btn_close').removeClass('show_btn_close');
                         });
 });
 
 
 
-// 接单- 设置转发人
-$('.forward_a').click(function(){
-    // alert("in"+this.val());
-    $('#forward_input').val(this.text);
-    $('#forward_input').attr("forwardman",this.getAttribute('value'));
+$('#case_close').click(function(){
+    var case_id = $('#case_detail_id').attr("realcaseid");
+    swal({
+      title: "确认关闭吗?", 
+      type: "warning",
+      showCancelButton: true
+    }, function() {
+      // $.post("/station/playstation/updatetaskApi",{
+      //   case_action : 'case_close',
+      //   case_id:case_id
+      // },function(data){
+      //   sweetAlert(data.detail);
+      // });
+        $.ajax({  
+            type : "post",  
+            url : "/station/playstation/updatetaskApi",  
+            data : {
+                case_action : 'case_close',
+                case_saywhat : 'close', //||saywhat,
+                case_id : case_id ,
+            },  
+        }).done(function(data){
+            if (data.status==1) {
+                // swal(data.detail);
+                // $('.case_c_a#'+case_id).addClass('show_case_detail');
+                location.href="/station/playstation/choose/givetask/rtask";
+            } else{
+                swal("出错啦！","关闭失败");
+            };
+        }).error(function(data){
+            swal("出错啦！","这个错误似乎未知嘛...");
+        });  
+    });
 });
 
 
 $('.case_btn').click(function(){
+    // alert(this.id);return;
     if ($('#case_detail_id').html() == '') {
         sweetAlert("请先选择事件");
     } else{
-        if (this.id=='case_forward' && $('#forward_input').attr("forwardman") == null) {
-            sweetAlert("请选择转发人");
-            return;
-        };
-
         var case_fun_titie="";
         var case_fun_action=this.id;
+        // var case_fun_action_who=this.attr("");
         var case_fun_forwardman="";
         if (case_fun_action=='case_submit') {
             case_fun_titie="请留言";
         } else if(case_fun_action=='case_reject'){
             case_fun_titie="为啥拒绝呢";
         } else if(case_fun_action=='case_forward'){
-            case_fun_titie="转发给了"+$('#forward_input').val()+",告诉他点啥";
-            case_fun_forwardman = $('#forward_input').attr("forwardman");
+            case_fun_titie="转发给了"+this.text+",告诉他点啥";
+            case_fun_forwardman = this.getAttribute("value");
+            // sweetAlert("in forward");
         } else{
             sweetAlert("竟然发生错误了！");
-            return;
+            return false;
         };
 
         swal({
@@ -102,6 +158,10 @@ $('.case_btn').click(function(){
             showCancelButton: true,
             closeOnConfirm: false
             }, function(saywhat) {
+                if (saywhat === false) {
+                    return false;
+                };
+
                 if (saywhat === '') {
                         swal.showInputError("必须留言！");
                         return false;
@@ -111,44 +171,24 @@ $('.case_btn').click(function(){
                         url : "/station/playstation/updatetaskApi",  
                         data : {
                             case_action : case_fun_action,
-                            case_saywhat : "hello", //||saywhat,
+                            case_saywhat : saywhat, //||saywhat,
+                            case_id : $('#case_detail_id').attr("realcaseid") ,
                             case_forwardman : case_fun_forwardman
                         },  
                     }).done(function(data){
                         // alert("1");
                         if (data.status==1) {
-                            swal(data.detail);
+                            // swal(data.detail);
+                            // $('.case_a#'+$('#case_detail_id').attr("realcaseid")).addClass('show_case_detail');
+                            location.href="/station/playstation/choose/givetask/rtask";
                         } else{
                             swal.showInputError(data.detail);
                         };
-                        
                     }).error(function(data){
-                        swal("hello","bad");
-
+                        swal("出错啦！","这个错误似乎未知嘛...");
                     });  
                 }
-
-                // $.ajax({  
-                //     type : "post",  
-                //     url : "/station/playstation/updatetaskApi",  
-                //     // data : "test=" + test,  
-                //     async : false,  
-                //     success : function(data){  
-                //         sweetAlert(data.detail);
-                //     }  
-                // });  
         });
-
-
-
-
-        // $.post('/station/playstation/updatetaskApi',{
-
-        //         },function(data){
-        //             sweetAlert("in post");
-        //         });
-        
-
     };
   
 });
