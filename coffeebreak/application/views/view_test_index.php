@@ -8,6 +8,7 @@
         position:fixed;
         height: 100%;
         z-index: 9999;
+        top:20px;
         /*background-color: black;*/
     }
     .mainstage {
@@ -67,7 +68,15 @@
 
 <div class="row">
     <div id="nav-myself-left" class="col-md-2 jumbotron">
-        
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+            <li><a href='/station/playstation/choose/1'>test</a></li>
+        </ul>
     </div>
     <div class="col-md-9 mainstage">
        
