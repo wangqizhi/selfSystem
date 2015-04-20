@@ -10,6 +10,10 @@
         z-index: 9999;
         /*background-color: black;*/
     }
+    .mainstage {
+        top: 80px;
+        left: 20%;
+    }
 
   </style>
 <div class="row">
@@ -75,41 +79,11 @@
     <div id="nav-myself-left" class="col-md-2 jumbotron">
         
     </div>
-    <div class="col-md-2">
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
-       <p>1</p>
+    <div class="col-md-9 mainstage">
+       
+<!--        <p>1</p>
     </div>
-</div>
+    <div class="col-md-4">
+        <p>2</p>
+    </div>
+</div> -->

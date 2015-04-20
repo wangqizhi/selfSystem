@@ -37,5 +37,5 @@
     
     </div>
   </div>
-  <div class="col-md-8 mainstage">
+  <div class="col-md-10 mainstage">
     <!-- 以下具体模块 start -->
