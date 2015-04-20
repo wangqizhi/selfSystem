@@ -34,7 +34,6 @@
       <?php foreach ($powerArray as $key => $value) {
         echo "<p><a href='/station/playstation/choose/".$key."'>".$value."</a></p>";
       } ?>
-    
     </div>
   </div>
   <div class="col-md-10 mainstage">
