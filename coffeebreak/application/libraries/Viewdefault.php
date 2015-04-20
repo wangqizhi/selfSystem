@@ -89,7 +89,7 @@ class Viewdefault {
         $this->CI->load->view('updown/default_head',$this->data );
         $this->CI->load->view('station/view_station_index');
         if ($default) {
-            $this->CI->load->view('station/view_station_'.$default,$this->data);
+            $this->CI->load->view($default,$this->data);
         }
         $this->CI->load->view('station/view_station_foot');
         $this->CI->load->view('updown/default_foot',$this->data );
