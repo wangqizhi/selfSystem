@@ -65,7 +65,8 @@
     <div id="nav-myself-left" class="col-md-2 jumbotron">
         <ul class="nav nav-pills nav-stacked">
             <?php foreach ($powerArray as $key => $value) {
-                echo '<li><a href="/station/playstation/choose/'.$key.'">'.$value.'</a></li>';
+                // var_dump($powerArray);exit;
+                echo '<li><a href="'.$value->functionGroupUrl.'">'.$value->functionGroupName.'</a></li>';
             } ?>
             <!-- <li><a href='/station/playstation/choose/1'>test</a></li> -->
         </ul>

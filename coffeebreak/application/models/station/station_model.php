@@ -11,6 +11,7 @@ class Station_model extends CI_Model {
     function get_playstation_group($powerid)
     {
         $this->db_cb->select('functionGroup');
+        $this->db_cb->select('functionGroupUrl');
         $this->db_cb->select('functionGroupName');
         $this->db_cb->distinct();
         $this->db_cb->like('functionPower','-'.$powerid.'-');

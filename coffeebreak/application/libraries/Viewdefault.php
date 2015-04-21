@@ -32,7 +32,7 @@ class Viewdefault {
 
         // 加载模型：用户及station
         $this->CI->load->model('station/station_model');
-        $this->CI->load->model('station/givetask_model');
+        // $this->CI->load->model('station/givetask_model');
         $this->CI->load->model('user/userinfo_model');
 
 
@@ -56,13 +56,13 @@ class Viewdefault {
     // 获取主模块权限
     function _getpowerarray()
     {
-        $powerarray = array();
-            $gid = $this->CI->userinfo_model->get_user_gid($this->usr)[0]->gid;
-            $usrfunction = $this->CI->station_model->get_playstation_group($gid);
-            foreach ($usrfunction as $key => $value) {
-                $powerarray[$value->functionGroup] = $value->functionGroupName;
-        }
-        return $powerarray;
+        // $powerarray = array();
+        $gid = $this->CI->userinfo_model->get_user_gid($this->usr)[0]->gid;
+        $usrfunction = $this->CI->station_model->get_playstation_group($gid);
+        // foreach ($usrfunction as $key => $value) {
+        //         $powerarray[$value->functionGroup] = $value->functionGroupName;
+        // }
+        return $usrfunction;
     }
 
 
@@ -87,7 +87,7 @@ class Viewdefault {
     {
         // 加载默认view
         $this->CI->load->view('updown/default_head',$this->data );
-        $this->CI->load->view('station/view_station_index');
+        $this->CI->load->view('station/view_station_indexboot');
         if ($default) {
             $this->CI->load->view($default,$this->data);
         }

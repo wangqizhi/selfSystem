@@ -4,7 +4,7 @@
             <input id="levelone_input" type="text" placeholder="事件类型(格式:大类-小类)" class="form-control" />
             <div class="input-group-btn" id="dropdowngroup">
                 <button id="levelone_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
-                    选择事件
+                    选择事件类型
                     <span class="caret"></span>
                 </button>
                 
@@ -55,7 +55,7 @@
     <div class="col-md-6">
 
         <div class="panel panel-default">
-            <div class="panel-heading">我提交-未完成</div>
+            <div class="panel-heading">我的提交(还未处理)</div>
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <?php 

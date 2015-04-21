@@ -41,13 +41,13 @@ class Playstation extends CI_Controller {
     // 获取主模块权限
     function _getpowerarray()
     {
-        $powerarray = array();
-            $gid = $this->userinfo_model->get_user_gid($this->usr)[0]->gid;
-            $usrfunction = $this->station_model->get_playstation_group($gid);
-            foreach ($usrfunction as $key => $value) {
-                $powerarray[$value->functionGroup] = $value->functionGroupName;
-        }
-        return $powerarray;
+        // $powerarray = array();
+        $gid = $this->userinfo_model->get_user_gid($this->usr)[0]->gid;
+        $usrfunction = $this->station_model->get_playstation_group($gid);
+        // foreach ($usrfunction as $key => $value) {
+        //         $powerarray[$value->functionGroup] = $value->functionGroupName;
+        // }
+        return $usrfunction;
     }
 
 
