@@ -1,9 +1,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="input-group taskInput">
+            <input id="levelone_input" type="text" placeholder="事件类型(格式:大类-小类)" class="form-control" />
             <div class="input-group-btn" id="dropdowngroup">
                 <button id="levelone_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
-                    输入
+                    选择事件
                     <span class="caret"></span>
                 </button>
                 
@@ -19,7 +20,6 @@
                     <li ><a class="choose_levelone" href="#">a3</a></li> -->
                 </ul>
             </div>
-            <input id="levelone_input" type="text" placeholder="事件类型(格式:大类-小类)" class="form-control" />
         </div>
 
 

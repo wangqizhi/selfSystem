@@ -111,7 +111,7 @@ class givetask_model extends CI_Model {
         $data = array(
                 'typeID' => $typeid ,
                 'taskContent' => $taskcontent ,
-                'taskPath' =>  $nowman.'@'.time(),
+                'taskPath' =>  $askman.'@'.time().':a',
                 'nowMan' => $nowman ,
                 'askMan' => $askman ,
                 'taskStatus' => 1 ,

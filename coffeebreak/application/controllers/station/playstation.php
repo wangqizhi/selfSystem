@@ -316,6 +316,30 @@ class Playstation extends CI_Controller {
 
             $caseinfo = $this->givetask_model->get_task_info($caseid);
             if ($caseinfo) {
+                $path_all = preg_split('/-/',$caseinfo[0]->taskPath);
+                // var_dump($path_all);
+                $path_info_out = '';
+                foreach ($path_all as $key => $value) {
+                    $taskwho = preg_split('/@/', preg_split('/:/',$value)[0])[0] ;
+                    $taskwhoname = $default_users_withname =  $this->userinfo_model->get_user_name($taskwho);;
+                    $tasktime = preg_split('/@/', preg_split('/:/',$value)[0])[1] ;
+                    $tasktime_deal = date("Y-m-d H:i:s",$tasktime);
+                    $msgid = preg_split('/:/',$value)[1];
+                    // msgid特殊情况，a是发起任务，0是未知错误
+                    if ($msgid == 'a') {
+                        // $msgcontent = "";
+                        $path_info_out = $path_info_out.$taskwhoname."@".$tasktime_deal." 发起<br>";
+                    } else if ($msgid == 0){
+                        $path_info_out = $path_info_out.$taskwhoname."@".$tasktime_deal." pass<br>";
+                    } 
+                    else {
+                        $msgcontent = $this->givetask_model->get_message_content($msgid)->msgContent;
+                        $path_info_out = $path_info_out.$taskwhoname."@".$tasktime_deal." 留言: ".$msgcontent."<br>";
+                    }
+                    // array_push($path_infoarray,$taskwhoname.'@'.$tasktime.'='.$msgcontent);
+                    // $this->givetask_model->get_message_content();
+                }
+                $caseinfo[0]->taskPath_array = $path_info_out;
                 $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '1','detail' => $caseinfo)));
                 return;
             } else {
@@ -392,7 +416,7 @@ class Playstation extends CI_Controller {
 
 
     function test(){
-        var_dump($_SESSION);
+        var_dump($this->givetask_model->get_message_content('10'));
 
     }
 

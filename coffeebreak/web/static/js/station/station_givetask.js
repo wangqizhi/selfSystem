@@ -64,7 +64,7 @@ $('.case_a').click(function(){
                             // },function(data_in){
                             //     $('#case_detail_user').html(data_in.detail+'正在处理...');
                             // });
-                            // $('#case_detail_path').html(case_detail_path_all[case_detail_path_all.length-1]);
+                            $('#case_path_content').html(data.detail[0].taskPath_array);
                             $('.group_btn_close').addClass('show_btn_close');
                             $('.group_btn_deal').removeClass('show_btn_deal');
                         });
@@ -86,6 +86,7 @@ $('.case_c_a').click(function(){
                             // },function(data_in){
                             //     $('#case_detail_user').html(data_in.detail+'正在处理...');
                             // });
+                            $('#case_path_content').html(data.detail[0].taskPath_array);
                             $('.group_btn_deal').addClass('show_btn_deal');
                             $('.group_btn_close').removeClass('show_btn_close');
                         });
