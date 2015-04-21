@@ -198,6 +198,18 @@ class givetask_model extends CI_Model {
         }
     }
 
+    // 获取message，根据ID
+    function get_message_content($msgid)
+    {
+        $query = $this->db_cb->select('msgContent')->where('id',$msgid)->get('cb_givetask_message');
+        if ( $query && count($query->result())==1 ) {
+            return $query->result()[0];
+        } else {
+            return false;
+        }
+    }
+
+
     // 更新事件
     function update_task($action,$caseid,$usr,$givemessage,$forwardman)
     {

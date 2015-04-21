@@ -53,7 +53,25 @@
                 <div class="panel-body">
                     <p id="case_detail_content"></p>
                 </div>
-                <!-- <div id="case_detail_user" class="panel-footer"></div> -->
+                <div id="case_detail_user" class="panel-footer">
+                    <!-- <a href="" target="_blank">详细内容</a> -->
+                <!-- Large modal -->
+                    <a  class="case_meth_a" data-toggle="modal" data-target=".case_meth">点击显示更多</a>
+
+                        <div class="modal fade case_meth" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title" id="myLargeModalLabel">流转情况<a class="anchorjs-link" href="#myLargeModalLabel"><span class="anchorjs-icon"></span></a></h4>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                </div>
                 <!-- <div id="case_detail_user" class="panel-footer">1</div> -->
                 <!-- <div id="case_detail_user" class="panel-footer">2</div> -->
             </div>
@@ -105,7 +123,6 @@
     
 </div>
 <div class="row">
-    
     
 </div>
 <div class="row"></div>

@@ -2,8 +2,6 @@
     <!-- 顶部导航 -->
     <nav id="mynav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-
              <!-- 顶部-左 -->
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -54,7 +52,7 @@
 
               <!-- 顶部-右 -->
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">王启之</a></li>
+                <li><a href="#"><?php echo $cb_displayName?></a></li>
                 <li><a class="btn btn-primary btn-sm" href="/login/loginout">登出</a></li>
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -67,16 +65,9 @@
     <div id="nav-myself-left" class="col-md-2 jumbotron">
         <ul class="nav nav-pills nav-stacked">
             <?php foreach ($powerArray as $key => $value) {
-                echo '<li><a href="'.$key.'">'.$value.'</a></li>';
+                echo '<li><a href="/station/playstation/choose/'.$key.'">'.$value.'</a></li>';
             } ?>
             <!-- <li><a href='/station/playstation/choose/1'>test</a></li> -->
         </ul>
     </div>
     <div class="col-md-9 cb_mainstage">
-       
-<!--        <p>1</p>
-    </div>
-    <div class="col-md-4">
-        <p>2</p>
-    </div>
-</div> -->

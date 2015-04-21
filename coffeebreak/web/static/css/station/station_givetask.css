@@ -28,3 +28,7 @@
 .show_btn_close{
     display: none;
 }
+
+.case_meth_a {
+    cursor: pointer;
+}

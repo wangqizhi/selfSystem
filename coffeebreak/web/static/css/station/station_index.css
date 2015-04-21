@@ -63,3 +63,23 @@
 .adddisable {
     display: none;
 }
+
+/*以下新版本*/
+
+#mynav{
+    background-color: rgb(177, 218, 246);
+    /*z-index: 10000;*/
+
+}
+#nav-myself-left{
+    position:fixed;
+    height: 100%;
+    /*z-index: 9999;*/
+    top:20px;
+    /*background-color: black;*/
+}
+.cb_mainstage {
+    top: 80px;
+    left: 18%;
+}
+

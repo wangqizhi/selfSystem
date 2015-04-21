@@ -69,8 +69,7 @@ class Playstation extends CI_Controller {
     {
         // 加载默认view
         $this->load->view('updown/default_head',$this->data );
-        // $this->load->view('view_test_index');
-        $this->load->view('station/view_station_index');
+        $this->load->view('station/view_station_indexboot');
         if ($default) {
             $this->load->view('station/view_station_'.$default,$this->data);
         }
@@ -330,6 +329,7 @@ class Playstation extends CI_Controller {
         
     }
 
+    // 获取用户名
     function getusrnameApi()
     {
         if (!$this->userdefault->checkLogin()){

@@ -58,12 +58,13 @@ $('.case_a').click(function(){
                             $('#case_detail_id').html("Case:"+data.detail[0].id+" 详细内容");
                             $('#case_detail_id').attr("realcaseid",data.detail[0].id);
                             $('#case_detail_content').html(data.detail[0].taskContent);
-                            $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
+                            // $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
                             // $.post('/station/playstation/getusrnameApi',{
                             //     usrid:data.detail[0].nowMan
                             // },function(data_in){
                             //     $('#case_detail_user').html(data_in.detail+'正在处理...');
                             // });
+                            // $('#case_detail_path').html(case_detail_path_all[case_detail_path_all.length-1]);
                             $('.group_btn_close').addClass('show_btn_close');
                             $('.group_btn_deal').removeClass('show_btn_deal');
                         });
@@ -79,7 +80,7 @@ $('.case_c_a').click(function(){
                             $('#case_detail_id').html("Case:"+data.detail[0].id+" 详细内容");
                             $('#case_detail_id').attr("realcaseid",data.detail[0].id);
                             $('#case_detail_content').html(data.detail[0].taskContent);
-                            $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
+                            // $('#case_detail_user').html(data.detail[0].nowMan+'正在处理...');
                             // $.post('/station/playstation/getusrnameApi',{
                             //     usrid:data.detail[0].nowMan
                             // },function(data_in){
@@ -89,6 +90,8 @@ $('.case_c_a').click(function(){
                             $('.group_btn_close').removeClass('show_btn_close');
                         });
 });
+
+
 
 
 
