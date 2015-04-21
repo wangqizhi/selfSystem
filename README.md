@@ -1,6 +1,5 @@
 yb_self_system
 ==============
 
-some system or script for yb
+some system...
 
-##mobile_monitor@php
