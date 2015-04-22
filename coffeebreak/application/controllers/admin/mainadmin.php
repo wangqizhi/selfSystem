@@ -18,11 +18,8 @@ class Mainadmin extends CI_Controller {
 
     function approveuser()
     {
-        // if (!$this->userdefault->checkLogin()){
-        //     header('Location:/');
-        //     return;
-        // }
 
+        // 验证权限admin-aboutuser
         if(!$this->userdefault->checkPower('admin-aboutuser')){
             header('Location:/');
         }
@@ -36,11 +33,13 @@ class Mainadmin extends CI_Controller {
         // 用户名
         $this->viewdefault->data['cb_displayName'] = $this->session->sess_get('cb_displayName');
 
-        // 获取权限
-        // $this->viewdefault->data['powerArray'] = $this->viewdefault->_getpowerarray();
+        // 获取权限组
         $this->viewdefault->data['substation'] = $this->viewdefault->_getsubpowerarray('admin');
+        
+        // 获取选中标示
         $this->viewdefault->data['subtag'] = 'aboutuser';
 
+        // 获取所有用户信息
         $this->viewdefault->data['allusrs'] = $this->userinfo_model->get_user_login();
         $allpower = $this->userinfo_model->get_power_name();
 
@@ -58,9 +57,12 @@ class Mainadmin extends CI_Controller {
         $this->viewdefault->data['allusrsname'] = $this->userinfo_model->get_users_name($allusridarray);
 
 
-
         // 设置主题
         $this->viewdefault->style = 'mater';
+
+        // 加载js/css
+        array_push($this->viewdefault->cssArray,'/static/css/cbadmin/admin_index.css');
+        $this->viewdefault->_getjscss();
 
         // 加载view
         $this->viewdefault->_defaultview('/admin/view_admin_index');
