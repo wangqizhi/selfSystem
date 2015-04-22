@@ -14,6 +14,8 @@ class Viewdefault {
         log_message('debug', "My Viewdefault Class Initialized");
         $this->CI =& get_instance();
 
+        $this->style = false;
+
         //加载默认静态资源
         $this->cssArray = array(
             '/static/css/station/station_index.css',
@@ -86,13 +88,25 @@ class Viewdefault {
     function _defaultview($default=false)
     {
         // 加载默认view
-        $this->CI->load->view('updown/default_head',$this->data );
-        $this->CI->load->view('station/view_station_indexboot');
-        if ($default) {
-            $this->CI->load->view($default,$this->data);
+        if ($this->style=='mater') {
+            $this->CI->load->view('updown/mater_head',$this->data );
+            $this->CI->load->view('station/view_station_indexmater');
+            if ($default) {
+                $this->CI->load->view($default,$this->data);
+            }
+            $this->CI->load->view('station/view_station_foot');
+            $this->CI->load->view('updown/mater_foot',$this->data );
+        } else {
+            $this->CI->load->view('updown/default_head',$this->data );
+            $this->CI->load->view('station/view_station_indexboot');
+            if ($default) {
+                $this->CI->load->view($default,$this->data);
+            }
+            $this->CI->load->view('station/view_station_foot');
+            $this->CI->load->view('updown/default_foot',$this->data );
         }
-        $this->CI->load->view('station/view_station_foot');
-        $this->CI->load->view('updown/default_foot',$this->data );
+        
+       
     }
 
 

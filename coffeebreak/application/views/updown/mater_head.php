@@ -9,7 +9,6 @@
             echo "CoffeeBreak";
     }
     ?></title>
-    <link href="/static/dist/css/vendor/bootstrap.min.css" rel="stylesheet" type="text/css" >
     <link href="/static/dist/css/materialize.min.css" rel="stylesheet" type="text/css" >
     <link href="/static/dist/css/sweet-alert.css" rel="stylesheet" type="text/css" >
 <?php
