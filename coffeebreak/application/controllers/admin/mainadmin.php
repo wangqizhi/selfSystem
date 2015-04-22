@@ -21,6 +21,9 @@ class Mainadmin extends CI_Controller {
         // 设置页面标题
         $this->viewdefault->data['title'] = "管理-用户开通";
 
+        // 用户名
+        $this->viewdefault->data['cb_displayName'] = $this->session->sess_get('cb_displayName');
+
         // 获取权限
         $this->viewdefault->data['powerArray'] = $this->viewdefault->_getpowerarray();
         $this->viewdefault->data['substation'] = $this->viewdefault->_getsubpowerarray('admin');
