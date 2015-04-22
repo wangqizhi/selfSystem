@@ -18,12 +18,12 @@
                     <?php 
                     // var_dump($allusrsname);exit;
                     foreach ($allusrs as $key => $value) {
-                        if ($value->loginPower == 0) {
-                            echo '<tr><td>'.$value->uid.'</td><td>'.$allusrsname[$value->uid].'</td><td>'.$allpowerarray[$value->gid].'</td><td>'.date("Y-m-d H:i:s",$value->lastLoginTime).'</td><td><a herf="#">点击开通</a></td></tr>';
-                            
+                        if ($allusrsname[$value->uid] === 0) {
+                            continue;
+                        }elseif ($value->loginPower == 0) {
+                            echo '<tr><td>'.$value->uid.'</td><td>'.$allusrsname[$value->uid].'</td><td>'.$allpowerarray[$value->gid].'</td><td>'.date("Y-m-d H:i:s",$value->lastLoginTime).'</td><td><a id="'.$value->uid.'" class="btn_usr_open" herf="#">点击开通</a></td></tr>';
                         } else {
                             echo '<tr><td>'.$value->uid.'</td><td>'.$allusrsname[$value->uid].'</td><td>'.$allpowerarray[$value->gid].'</td><td>'.date("Y-m-d H:i:s",$value->lastLoginTime).'</td><td>可以登录 </td></tr>';
-                            # code...
                         }
                         
                         // echo '<tr><td>'.$value->uid.'</td><td>'.$allusrsname[$value->uid].'</td><td>'.$allpowerarray[$value->gid].'</td><td>'.date("Y-m-d H:i:s",$value->lastLoginTime).'</td><td>'.$value->loginPower.'</td></tr>';
@@ -32,7 +32,7 @@
                   <!-- <tr><td>Alvin</td><td>Eclair</td><td>$0.87</td></tr> -->
                 </tbody>
             </table>
-            
+
 <!--             <div class="container">
                 <ul class="pagination">
                     <li class="disabled"><a href="#!"><i class="mdi-navigation-chevron-left"></i></a></li>

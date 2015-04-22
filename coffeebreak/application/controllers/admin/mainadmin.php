@@ -18,7 +18,6 @@ class Mainadmin extends CI_Controller {
 
     function approveuser()
     {
-
         // 验证权限admin-aboutuser
         if(!$this->userdefault->checkPower('admin-aboutuser')){
             header('Location:/');
@@ -62,11 +61,24 @@ class Mainadmin extends CI_Controller {
 
         // 加载js/css
         array_push($this->viewdefault->cssArray,'/static/css/cbadmin/admin_index.css');
+        array_push($this->viewdefault->jsArray,'/static/js/cbadmin/admin_index.js');
         $this->viewdefault->_getjscss();
 
         // 加载view
         $this->viewdefault->_defaultview('/admin/view_admin_index');
     }
+
+    function openusrApi()
+    {
+        if(!$this->userdefault->checkPower('admin-aboutuser')){
+            header('Location:/');
+        }
+        $usrid = $this->input->post('usrid');
+        $out = $this->userinfo_model->set_user_loginpower($usrid);
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('status' => '0','detail' => $out)));
+    }
+
+
 
 
 }

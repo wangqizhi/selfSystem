@@ -33,6 +33,14 @@ class Userinfo_model extends CI_Model {
         }
     }
 
+    // 开通用户
+    function set_user_loginpower($usr)
+    {
+        $data = array('loginPower'=>1);
+        $this->db_cb->where('uid',$usr);
+        $this->db_cb->update('cb_users',$data);
+    }
+
     // 获取所有用户信息
     function get_user_login()
     {
